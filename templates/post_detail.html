@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load urlify %}
+    {% block title_head %}{{ instance.title}} ||{{ block.super }}{% endblock title_head %}
+    {% block content %}
+        <div class="col-sm-6 sol-sm-offset-3">
+        {% if instance.img %}
+        <img src="{{ instance.img.url }}" class="img-resp"/>
+        {% endif %}
+ <h1>{{ title |linebreaks}}<small>{{instance.timestamp}}</small></h1>
+        {{ instance.content|truncatechars:20|urlify }}
+            Share in
+        <a href="http://vk.com/share.php?url={{ request.build_absolute_uri }}" target="_blank">Vkontakte</a>
+        and
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">Facebook</a>
+        {{instance.content |linebreaks}}<br/>
+        </div>
+    {% endblock content  %}
