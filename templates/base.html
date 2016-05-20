@@ -3,6 +3,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+        <!-- Put this script tag to the <head> of your page -->
+        <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
+        <script type="text/javascript">
+          VK.init({apiId: 5471485, onlyWidgets: true});
+        </script>
+
+        <script type="text/javascript" src="http://userapi.com/js/api/openapi.js?34"></script>
+        <script type="text/javascript">
+        VK.init({apiId:5471485, onlyWidgets: true});
+        </script>
     <title>{% block title_head %}My col title{% endblock title_head %}</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -20,49 +30,13 @@
     </style>
 </head>
 <body>
+    {% block jumbotron %}
+    {% endblock jumbotron %}
     {% include "messages_display.html" %}
     <div class='container'>
-        {% block content %}
-
-   <div class="col-sm-8 col-sm-offset-2">
-    <h1>{{ title }}</h1>
-   {% for obj in object_list %}
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="thumbnail">
-            {% if obj.img %}
-          <img src="{{ obj.img.url }}" class="img-resp"/>
-            {% endif %}
-          <div class="caption">
-            <h3> <a href='{{ obj.get_absolute_url }}'>{{obj.title}}</a><small> {{obj.timestamp|timesince}} ago</small></h3>
-            <p>{{obj.content|linebreaks|truncatechars:30}}</p>
-            <p><a href="{{ obj.get_absolute_url }}" class="btn btn-primary" role="button">View</a></p>
-          </div>
-        </div>
-      </div>
-</hr>
-</div>
-    {%  endfor %}
-       <div class="pagination">
-        <span class="step-links">
-            {% if object_list.has_previous %}
-                <a href="?{{page_req_var}}={{ object_list.previous_page_number }}">previous</a>
-            {% endif %}
-            <span class="current">
-                Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
-            </span>
-
-            {% if object_list.has_next %}
-                <a href="?page={{ object_list.next_page_number }}">next</a>
-            {% endif %}
-        </span>
+        {% block content %}{% endblock content %}
     </div>
-            </div>
-        {% endblock content %}
-    </div>
-   </div>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
 </html>
-
