@@ -1,3 +1,12 @@
+try:
+    from urllib import quote_plus #python 2
+except:
+    pass
+
+try:
+    from urllib.parse import quote_plus #python 3
+except:
+    pass
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render,get_object_or_404,redirect, Http404
@@ -5,7 +14,10 @@ from . models import Post
 from .forms import PostForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
-from urllib.parse import quote_plus
+
+
+def title(request):
+    return render(request,"title.html")
 
 def post_create(request):
     if not request.user.is_staff or not request.user.is_superuser:
@@ -13,6 +25,7 @@ def post_create(request):
     form = PostForm(request.POST or None,request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
+        instance.user = request.user
         instance.save()
         messages.success(request,"Successfuly Created")
         return HttpResponseRedirect(instance.get_absolute_url())
@@ -53,7 +66,7 @@ def post_list(request):
             "title":"List",
             "page_req_var":page_req_var,
     }
-    return render(request,"base.html",context)
+    return render(request,"post_list.html",context)
 
 
 def post_update(request,slug=None):
