@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+ {% block head_title %}My Cool Site{% endblock %}
+    {% block jumbotron %}
+   <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Hello!</h1>
+        <p>This is Vera Andrianova's gallery</p>
+        <p><a class="btn btn-primary btn-lg" href="{% url 'posts:post_list'%}" role="button">View &raquo;</a></p>
+         {% if request.user.is_superuser %} <p><a class="btn btn-primary btn-lg" href="{% url 'posts:post_create'%}" role="button">Create post &raquo;</a></p>{% endif %}
+      </div>
+    </div>
+{% endblock jumbotron %}
