@@ -2,12 +2,13 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
-
+from django.conf import settings
 
 def upload_location(instance , filename):
     return "%s/s" %(instance.id , filename)
 
 class Post(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     title = models.CharField(max_length=120)
     slug = models.SlugField(unique=True)
     img = models.ImageField(null=True,blank=True,height_field="height_field",width_field="width_field")
@@ -25,6 +26,12 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("posts:post_detail", kwargs={"slug": self.slug})
+
+    def get_delete_url(self):
+        return reverse("posts:post_delete", kwargs={"slug": self.slug})
+
+    def get_update_url(self):
+            return reverse("posts:post_delete", kwargs={"slug": self.slug})
 
     class Meta:
         ordering = ["-timestamp","-update"]
@@ -48,6 +55,7 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_post_receiver, sender=Post)
+
 
 
 
